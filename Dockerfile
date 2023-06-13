@@ -6,20 +6,21 @@ FROM rust:1.61-alpine3.15 as builder
 # branch name or tag
 ARG BRANCH
 RUN apk add --no-cache --virtual .build-deps git make musl-dev openssl-dev perl pkgconfig \
+    && ls \
 #    && git clone -b $BRANCH https://github.com/TheWaWaR/simple-http-server.git /simple-http-server \
     && RUSTFLAGS='-C link-arg=-s' cargo build \
     --features only-openssl \
     --no-default-features \
     --release \
     --target x86_64-unknown-linux-musl \
-    --manifest-path=./Cargo.toml
+    --manifest-path=/simple-http-server/Cargo.toml
 
 FROM gcr.io/distroless/static:nonroot
 LABEL maintainer="avadhanij6si" \
     org.opencontainers.image.source="https://github.com/TheWaWaR/simple-http-server" \
     org.opencontainers.image.description="A minimal distroless container image for TheWaWaR/simple-http-server"
 COPY --from=builder \
-    /target/x86_64-unknown-linux-musl/release/simple-http-server \
+    /simple-http-server/target/x86_64-unknown-linux-musl/release/simple-http-server \
     /usr/local/bin/simple-http-server
 USER nonroot:nonroot
 WORKDIR /var/www/html
