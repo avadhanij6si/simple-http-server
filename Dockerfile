@@ -4,7 +4,7 @@
 
 FROM rust:1.61-alpine3.15 as builder
 # branch name or tag
-COPY devtroncd simple-http-server
+COPY /devtroncd /simple-http-server
 RUN apk add --no-cache --virtual .build-deps git make musl-dev openssl-dev perl pkgconfig \
     && ls \
     && RUSTFLAGS='-C link-arg=-s' cargo build \
