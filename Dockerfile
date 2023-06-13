@@ -6,6 +6,7 @@ FROM rust:1.61-alpine3.15 as builder
 # branch name or tag
 ARG BRANCH
 RUN apk add --no-cache --virtual .build-deps git make musl-dev openssl-dev perl pkgconfig \
+    && sleep 200 \
     && ls \
 #    && git clone -b $BRANCH https://github.com/TheWaWaR/simple-http-server.git /simple-http-server \
     && RUSTFLAGS='-C link-arg=-s' cargo build \
