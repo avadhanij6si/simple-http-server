@@ -17,7 +17,8 @@ RUN apk add --no-cache --virtual .build-deps make musl-dev openssl-dev perl pkgc
 FROM gcr.io/distroless/static:nonroot
 LABEL maintainer="avadhanij6si" \
     org.opencontainers.image.source="https://github.com/avadhanij6si/simple-http-server" \
-    org.opencontainers.image.description="A minimal distroless container image for simple-http-server"
+    org.opencontainers.image.description="A minimal distroless container image for simple-http-server. A rust based
+    http server"
 COPY --from=builder \
     /simple-http-server/target/x86_64-unknown-linux-musl/release/simple-http-server \
     /usr/local/bin/simple-http-server
